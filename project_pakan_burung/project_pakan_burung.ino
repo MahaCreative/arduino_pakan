@@ -51,91 +51,7 @@ void mqttResive(char *topic, byte*msg, unsigned int lengthMessage){
       message += String(char(msg[i]));
     }
     Serial.print(message);
-    if(message == "aktif"){
-          servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(180);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(180);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-           servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(180);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(180);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-           servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(180);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(180);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-           servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(180);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(180);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-           servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(180);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-          delay(1000);
-          
-          servo1.write(180);
-          Serial.println("Proses Memberi Makan");
-          matikan();
-          delay(1000);
-           message = "";
-    }else if(message == "mati"){
-        servo1.write(0);
-          Serial.println("Proses Memberi Makan");
-        message = "";
-    }
-   
-    message = "";
+
   }
 }
 // Conneksi mqtt
@@ -165,18 +81,101 @@ void setup() {
     mqtt.setCallback(mqttResive);
 }
 
-void loop() {
-
-    
+void loop() {   
   if(WiFi.status()== WL_CONNECTED){
     if(!mqtt.connected()){
       konekMqtt();
       
     } 
-    mqtt.loop();
-     kirimStok();
+    if(message == "aktif"){
+          servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(180);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(180);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+           servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(180);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(180);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+           servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(180);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(180);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+           servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(180);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(180);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+           servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(180);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+          delay(500);
+          
+          servo1.write(180);
+          Serial.println("Proses Memberi Makan");
+          matikan();
+           message = "";
+    }else if(message == "mati"){
+        servo1.write(0);
+          Serial.println("Proses Memberi Makan");
+        message = "";
+    }
+    kirimStok();
     kirimSuhu();
+    message = "";
+    mqtt.loop();
+
   }
+  delay(100);
   
 }
 
@@ -225,7 +224,10 @@ void kirimStok(){
   
   http.begin(kirimStok, host);
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-  String httpRequestData = "stok=" + String(((float(jarak)-16) / 17 * 100));
+  float jarakStok = 16;
+  float sisa = jarakStok - jarak;
+  float persent = sisa / jarakStok * 100;
+  String httpRequestData = "stok=" + String(persent);
 
   int httpResponseCode = http.POST(httpRequestData);
   http.end();
@@ -246,13 +248,6 @@ int ultrasonik(){
     // Serial.println(distance);
     return distance;
 }
-
-
-
-
-
-
-
 
 // Koneksi Wifi
 void koneksiWifi(){
